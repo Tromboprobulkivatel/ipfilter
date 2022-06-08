@@ -11,7 +11,7 @@ struct address {
 	std::array<unsigned char, AddressTriads> value {};
 	unsigned int id;
 
-	address ( const std::string& String ) {
+	explicit address ( const std::string& String ) {
 		auto triad { 0 };
 		auto i { 0 };
 		for ( const auto& c: String ) {
@@ -39,7 +39,7 @@ struct address {
 auto read () {
 	std::vector<address> list;
 	for ( std::string input; std::getline ( std::cin, input ); ) {
-		list.push_back ( input );
+		list.emplace_back ( input );
 	}
 	return list;
 }
