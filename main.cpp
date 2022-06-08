@@ -58,18 +58,18 @@ int main () {
 	std::copy_if ( list.begin (), list.end (), std::back_inserter ( filtered ),
 				   [] ( address& item ) { return item.value[ 0 ] == 1; } );
 	output ( filtered );
-	filtered.clear();
+	filtered.clear ();
 	std::copy_if ( list.begin (), list.end (), std::back_inserter ( filtered ),
 				   [] ( address& item ) { return item.value[ 0 ] == 46 && item.value[ 1 ] == 70; } );
 	output ( filtered );
-	filtered.clear();
+	filtered.clear ();
 	std::copy_if ( list.begin (), list.end (), std::back_inserter ( filtered ),
 				   [] ( address& item ) {
-		return item.value[ 0 ] == 46
-			   || item.value[ 1 ] == 46
-			   || item.value[ 2 ] == 46
-			   || item.value[ 3 ] == 46;
-	} );
+					   return item.value[ 0 ] == 46
+							  || item.value[ 1 ] == 46
+							  || item.value[ 2 ] == 46
+							  || item.value[ 3 ] == 46;
+				   } );
 	output ( filtered );
 	return 0;
 }
