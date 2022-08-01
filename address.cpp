@@ -3,8 +3,8 @@
 #include "address.h"
 
 address::address ( const std::string& String ) {
-	auto triad { 0 };
-	auto i { 0 };
+	unsigned char triad { 0 };
+	unsigned char i { 0 };
 	for ( const auto& c: String ) {
 		if ( c == '.' ) {
 			++triad;
