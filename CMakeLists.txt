@@ -1,6 +1,10 @@
 cmake_minimum_required ( VERSION 3.22 )
 project ( ipfilter )
-
 set ( CMAKE_CXX_STANDARD 20 )
-
-add_executable ( ipfilter main.cpp )
+add_executable ( ipfilter main.cpp address.cpp address.h )
+option ( WITH_TESTS "Build the project with tests" ON )
+if ( WITH_TESTS )
+    add_executable ( test_address address.cpp address.h test.cpp doctest.h )
+    enable_testing ()
+    add_test ( address test_address )
+endif ()

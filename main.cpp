@@ -1,43 +1,10 @@
 #include <iostream>
 #include <vector>
-#include <array>
-#include <cassert>
-
-const auto AddressPresentationSize { 16 };
-const auto AddressTriads { 4 };
-
-struct address {
-	char presentation[AddressPresentationSize] {};
-	std::array<unsigned char, AddressTriads> value {};
-	unsigned int id;
-
-	explicit address ( const std::string& String ) {
-		auto triad { 0 };
-		auto i { 0 };
-		for ( const auto& c: String ) {
-			if ( c == '.' ) {
-				++triad;
-				assert ( triad < AddressTriads );
-			} else if ( c == '\t' ) {
-				break;
-			} else {
-				value[ triad ] = value[ triad ] * 10 + ( c - '0' );
-			}
-			presentation[ i++ ] = c;
-			assert ( i < AddressPresentationSize );
-		}
-		id = value[ 0 ] * 256 * 256 * 256
-			 + value[ 1 ] * 256 * 256
-			 + value[ 2 ] * 256
-			 + value[ 3 ];
-	}
-	bool operator> ( const address& Comparing ) const {
-		return id > Comparing.id;
-	}
-};
+#include "address.h"
 
 auto read () {
 	std::vector<address> list;
+	list.reserve ( 100 );
 	for ( std::string input; std::getline ( std::cin, input ); ) {
 		list.emplace_back ( input );
 	}
@@ -55,16 +22,17 @@ int main () {
 	std::sort ( list.begin (), list.end (), std::greater<address> () );
 	output ( list );
 	std::vector<address> filtered;
+	filtered.reserve ( list.size () );
 	std::copy_if ( list.begin (), list.end (), std::back_inserter ( filtered ),
-				   [] ( address& item ) { return item.value[ 0 ] == 1; } );
+				   [] ( const address& item ) { return item.value[ 0 ] == 1; } );
 	output ( filtered );
 	filtered.clear ();
 	std::copy_if ( list.begin (), list.end (), std::back_inserter ( filtered ),
-				   [] ( address& item ) { return item.value[ 0 ] == 46 && item.value[ 1 ] == 70; } );
+				   [] ( const address& item ) { return item.value[ 0 ] == 46 && item.value[ 1 ] == 70; } );
 	output ( filtered );
 	filtered.clear ();
 	std::copy_if ( list.begin (), list.end (), std::back_inserter ( filtered ),
-				   [] ( address& item ) {
+				   [] ( const address& item ) {
 					   return item.value[ 0 ] == 46
 							  || item.value[ 1 ] == 46
 							  || item.value[ 2 ] == 46
